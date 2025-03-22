@@ -38,5 +38,6 @@
   "libVersion": "3.0.0",
   "srcMiniprogramRoot": "miniprogram/",
   "appid": "wxa5722d927e4fc4b5",
-  "cloudfunctionRoot": "cloudfunctions/"
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloud": true
 }

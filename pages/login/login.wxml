@@ -6,10 +6,9 @@
   
   <view class="content">
     <button 
-      class="login-btn" 
+      class="login-btn {{loading ? 'loading' : ''}}" 
       type="primary"
-      open-type="getUserInfo"
-      bindgetuserinfo="handleLogin"
+      bindtap="handleLogin"
       loading="{{loading}}"
       disabled="{{loading}}"
     >微信一键登录</button>

@@ -1,6 +1,9 @@
 <view class="container">
   <view class="header">
     <text class="title">动态</text>
+    <view class="refresh-btn" bindtap="refreshMoments">
+      <text class="iconfont icon-refresh"></text>
+    </view>
   </view>
 
   <scroll-view 
@@ -32,14 +35,12 @@
         
         <view class="footer">
           <view class="time">{{item.createTimeFormatted}}</view>
-          <view class="actions">
-            <view class="action-item {{item.isLiked ? 'liked' : ''}}" data-id="{{item._id}}" bindtap="handleLike">
-              <text class="iconfont icon-like"></text>
-              <text class="count">{{item.likes}}</text>
+          <view class="moment-actions">
+            <view class="action-btn like-btn {{item.isLiked ? 'active' : ''}}" bindtap="handleLike" data-id="{{item._id}}">
+              {{item.likes || 0}}
             </view>
-            <view class="action-item" data-id="{{item._id}}" bindtap="handleComment">
-              <text class="iconfont icon-comment"></text>
-              <text class="count">{{item.comments}}</text>
+            <view class="action-btn comment-btn" bindtap="handleComment" data-id="{{item._id}}">
+              {{item.comments ? item.comments.length : 0}}
             </view>
           </view>
         </view>
@@ -76,18 +77,32 @@
   </view>
 
   <!-- 评论输入框 -->
-  <view class="comment-input-container" wx:if="{{showCommentInput}}">
-    <view class="mask" bindtap="hideCommentInput"></view>
-    <view class="input-box">
-      <input 
-        class="comment-input"
-        placeholder="说点什么..."
+  <view class="comment-input-container {{showCommentInput ? 'show' : ''}}">
+    <view class="comment-input-header">
+      <text class="comment-input-title">发表评论</text>
+      <view class="comment-input-actions">
+        <view class="action-btn cancel-btn" bindtap="cancelComment">取消</view>
+        <view class="action-btn submit-btn" bindtap="submitComment">发送</view>
+      </view>
+    </view>
+    <view class="comment-input-content">
+      <textarea 
+        class="comment-input" 
+        placeholder="说点什么..." 
+        placeholder-class="comment-input-placeholder"
         value="{{commentInput}}"
         bindinput="onCommentInput"
-        focus="{{showCommentInput}}"
-        adjust-position="{{true}}"
-      />
-      <button class="send-btn" bindtap="submitComment">发送</button>
+        auto-height
+        maxlength="500"
+        show-confirm-bar="{{false}}"
+      ></textarea>
+      <view class="comment-input-footer">
+        <view class="image-uploader" bindtap="chooseCommentImage">
+          <text class="iconfont icon-image"></text>
+          <text class="upload-text">添加图片</text>
+        </view>
+        <text class="word-count">{{commentInput.length}}/500</text>
+      </view>
     </view>
   </view>
 </view> 

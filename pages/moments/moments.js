@@ -21,6 +21,23 @@ Page({
     }
   },
 
+  refreshMoments: function() {
+    var that = this
+    this.setData({
+      moments: [],
+      page: 1,
+      hasMore: true,
+      refreshing: true
+    }, function() {
+      that.loadMoments().then(function() {
+        that.setData({ refreshing: false })
+      }).catch(function(err) {
+        console.error('刷新失败：', err)
+        that.setData({ refreshing: false })
+      })
+    })
+  },
+
   onPullDownRefresh: function() {
     var that = this
     this.setData({
@@ -271,13 +288,5 @@ Page({
     }).finally(function() {
       wx.hideLoading()
     })
-  },
-
-  refreshMoments: function() {
-    this.setData({
-      moments: [],
-      page: 1,
-      hasMore: true
-    }, this.loadMoments)
   }
 }) 

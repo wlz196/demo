@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="header">
+    <text class="title">设置</text>
+  </view>
+
+  <view class="settings-list">
+    <view class="settings-item" bindtap="handleChangeAvatar">
+      <view class="item-left">
+        <text class="label">头像</text>
+        <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="settings-item" bindtap="handleChangeNickname">
+      <view class="item-left">
+        <text class="label">昵称</text>
+        <text class="value">{{userInfo.nickName}}</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <view class="tips">
+    <text>点击头像或昵称可以修改</text>
+  </view>
+</view> 

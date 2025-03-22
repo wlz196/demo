@@ -1,74 +1,77 @@
-<view class="container" wx:if="{{userInfo}}">
-  <view class="header">
+<view class="container">
+  <!-- 顶部背景和用户信息 -->
+  <view class="profile-header">
     <view class="user-info">
       <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-      <view class="info">
+      <view class="user-detail">
         <text class="nickname">{{userInfo.nickName}}</text>
-        <text class="id">ID: {{userInfo.openId || '未设置'}}</text>
+        <text class="user-id">ID: {{userInfo._id || '未登录'}}</text>
       </view>
-    </view>
-    <view class="settings" bindtap="goToSettings">
-      <text class="icon">⚙️</text>
     </view>
   </view>
 
-  <view class="statistics">
-    <view class="stat-item" bindtap="goToMyMoments">
-      <text class="number">{{statistics.moments}}</text>
-      <text class="label">动态</text>
-    </view>
-    <view class="stat-item" bindtap="goToMyReviews">
-      <text class="number">{{statistics.reviews}}</text>
-      <text class="label">评价</text>
+  <!-- 数据统计 -->
+  <view class="stats-section">
+    <view class="stat-item">
+      <text class="stat-num">{{userInfo.momentsCount || 0}}</text>
+      <text class="stat-label">动态</text>
     </view>
     <view class="stat-item">
-      <text class="number">{{statistics.likes}}</text>
-      <text class="label">获赞</text>
+      <text class="stat-num">{{userInfo.likesCount || 0}}</text>
+      <text class="stat-label">获赞</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{userInfo.commentsCount || 0}}</text>
+      <text class="stat-label">评论</text>
     </view>
   </view>
 
-  <view class="menu-list">
-    <view class="menu-item" bindtap="goToMyMoments">
-      <view class="menu-content">
-        <text class="icon">📝</text>
-        <text class="label">我的动态</text>
+  <!-- 功能列表 -->
+  <view class="menu-section">
+    <view class="menu-group">
+      <view class="menu-item" bindtap="goToSettings">
+        <view class="menu-item-left">
+          <text class="iconfont icon-settings"></text>
+          <text class="menu-text">设置</text>
+        </view>
+        <text class="iconfont icon-arrow"></text>
       </view>
-      <text class="arrow">></text>
+      <view class="menu-item" bindtap="goToMyMoments">
+        <view class="menu-item-left">
+          <text class="iconfont icon-moments"></text>
+          <text class="menu-text">我的动态</text>
+        </view>
+        <text class="iconfont icon-arrow"></text>
+      </view>
+      <view class="menu-item" bindtap="goToLikedMoments">
+        <view class="menu-item-left">
+          <text class="iconfont icon-like"></text>
+          <text class="menu-text">我的点赞</text>
+        </view>
+        <text class="iconfont icon-arrow"></text>
+      </view>
     </view>
-    <view class="menu-item" bindtap="goToMyReviews">
-      <view class="menu-content">
-        <text class="icon">⭐</text>
-        <text class="label">我的评价</text>
+
+    <view class="menu-group">
+      <view class="menu-item" bindtap="goToAbout">
+        <view class="menu-item-left">
+          <text class="iconfont icon-about"></text>
+          <text class="menu-text">关于我们</text>
+        </view>
+        <text class="iconfont icon-arrow"></text>
       </view>
-      <text class="arrow">></text>
-    </view>
-    <view class="menu-item">
-      <view class="menu-content">
-        <text class="icon">❤️</text>
-        <text class="label">我的收藏</text>
+      <view class="menu-item" bindtap="handleFeedback">
+        <view class="menu-item-left">
+          <text class="iconfont icon-feedback"></text>
+          <text class="menu-text">意见反馈</text>
+        </view>
+        <text class="iconfont icon-arrow"></text>
       </view>
-      <text class="arrow">></text>
     </view>
   </view>
 
-  <view class="menu-list">
-    <view class="menu-item" bindtap="goToSettings">
-      <view class="menu-content">
-        <text class="icon">⚙️</text>
-        <text class="label">设置</text>
-      </view>
-      <text class="arrow">></text>
-    </view>
-    <view class="menu-item">
-      <view class="menu-content">
-        <text class="icon">📞</text>
-        <text class="label">联系客服</text>
-      </view>
-      <text class="arrow">></text>
-    </view>
-  </view>
-
-  <view class="logout" bindtap="handleLogout">
-    退出登录
+  <!-- 退出登录按钮 -->
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="handleLogout">退出登录</button>
   </view>
 </view> 

@@ -7,7 +7,8 @@
     "pages/publish/publish",
     "pages/comment/comment",
     "pages/place-detail/place-detail",
-    "pages/write-review/write-review"
+    "pages/write-review/write-review",
+    "pages/settings/settings"
   ],
   "window": {
     "backgroundTextStyle": "light",

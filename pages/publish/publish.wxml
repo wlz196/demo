@@ -1,11 +1,14 @@
 <view class="container">
-  <view class="header">
-    <text class="cancel" bindtap="navigateBack">取消</text>
+  <view class="header" style="position: relative; left: 0rpx; top: -200rpx">
     <text class="title">发布动态</text>
-    <text class="publish" bindtap="publish">发布</text>
-  </view>
 
-  <view class="content">
+  </view>
+      <view class="action-bar" style="position: relative; left: 0rpx; top: -328rpx">
+      <text class="cancel" bindtap="navigateBack">取消</text>
+      <text class="publish" bindtap="publish">发布</text>
+    </view>
+
+  <view class="content" style="width: 731rpx; height: 425rpx; display: block; box-sizing: content-box">
     <textarea
       class="input"
       placeholder="分享新鲜事..."
@@ -13,7 +16,7 @@
       maxlength="1000"
       bindinput="handleInput"
       value="{{content}}"
-    ></textarea>
+     style="position: relative; left: -13rpx; top: -531rpx; width: 756rpx; height: 414rpx; display: block; box-sizing: border-box"></textarea>
 
     <view class="images">
       <view 
@@ -38,7 +41,7 @@
         class="add-image"
         bindtap="chooseImage"
         wx:if="{{images.length < maxImageCount}}"
-      >
+       style="position: relative; left: 0rpx; top: -545rpx">
         <text class="icon">+</text>
         <text class="text">添加图片</text>
       </view>

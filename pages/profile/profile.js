@@ -3,31 +3,24 @@ Page({
     userInfo: null,
     statistics: {
       moments: 0,
-      reviews: 0,
-      likes: 0
+      likes: 0,
+      comments: 0
     }
   },
 
-  onLoad: function() {
+  onLoad() {
     this.loadUserInfo()
   },
 
-  onShow: function() {
+  onShow() {
     this.loadUserInfo()
   },
 
-  loadUserInfo: function() {
-    // 获取本地存储的用户信息
-    var userInfo = wx.getStorageSync('userInfo')
-    if (userInfo) {
-      this.setData({ 
-        userInfo: userInfo,
-        statistics: {
-          moments: userInfo.moments || 0,
-          reviews: userInfo.reviews || 0,
-          likes: userInfo.likes || 0
-        }
-      })
+  loadUserInfo() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo && userInfo.openId) {
+      this.setData({ userInfo })
+      this.loadUserStatistics()
     } else {
       // 未登录，跳转到登录页
       wx.redirectTo({
@@ -36,41 +29,87 @@ Page({
     }
   },
 
-  goToSettings: function() {
+  loadUserStatistics() {
+    const db = wx.cloud.database()
+    const _ = db.command
+
+    // 获取用户发布的动态数量
+    db.collection('moments')
+      .where({
+        _openid: this.data.userInfo.openId
+      })
+      .count()
+      .then(res => {
+        this.setData({
+          'userInfo.momentsCount': res.total
+        })
+      })
+
+    // 获取用户获得的点赞数
+    db.collection('moments')
+      .where({
+        _openid: this.data.userInfo.openId
+      })
+      .get()
+      .then(res => {
+        const likes = res.data.reduce((sum, moment) => sum + (moment.likes || 0), 0)
+        this.setData({
+          'userInfo.likesCount': likes
+        })
+      })
+
+    // 获取用户获得的评论数
+    db.collection('moments')
+      .where({
+        _openid: this.data.userInfo.openId
+      })
+      .get()
+      .then(res => {
+        const comments = res.data.reduce((sum, moment) => sum + (moment.comments ? moment.comments.length : 0), 0)
+        this.setData({
+          'userInfo.commentsCount': comments
+        })
+      })
+  },
+
+  goToSettings() {
     wx.navigateTo({
       url: '/pages/settings/settings'
     })
   },
 
-  goToMyMoments: function() {
+  goToMyMoments() {
     wx.navigateTo({
       url: '/pages/my-moments/my-moments'
     })
   },
 
-  goToMyReviews: function() {
+  goToLikedMoments() {
     wx.navigateTo({
-      url: '/pages/my-reviews/my-reviews'
+      url: '/pages/liked-moments/liked-moments'
     })
   },
 
-  handleLogout: function() {
-    var that = this
+  goToAbout() {
+    wx.navigateTo({
+      url: '/pages/about/about'
+    })
+  },
+
+  handleFeedback() {
+    wx.navigateTo({
+      url: '/pages/feedback/feedback'
+    })
+  },
+
+  handleLogout() {
     wx.showModal({
       title: '提示',
       content: '确定要退出登录吗？',
-      success: function(res) {
+      success: (res) => {
         if (res.confirm) {
-          // 清除本地存储的用户信息
-          wx.removeStorageSync('userInfo')
-          wx.removeStorageSync('sessionData')
-          
-          // 清除全局数据
-          getApp().globalData.userInfo = null
-          getApp().globalData.isLoggedIn = false
-          
-          // 跳转到登录页
-          wx.redirectTo({
+          wx.clearStorageSync()
+          wx.reLaunch({
             url: '/pages/login/login'
           })
         }

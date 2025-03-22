@@ -1,11 +1,14 @@
 <view class="container">
-  <view class="header">
-    <text class="cancel" bindtap="navigateBack">取消</text>
-    <text class="title">发表评论</text>
-    <text class="submit" bindtap="submitComment">发送</text>
-  </view>
+    <view class="header" style="position: relative; left: 0rpx; top: -200rpx">
+    <text class="title">发布动态</text>
 
-  <view class="content">
+  </view>
+      <view class="action-bar" style="position: relative; left: 0rpx; top: -443rpx">
+      <text class="cancel" bindtap="navigateBack">取消</text>
+      <text class="publish" bindtap="publish">发布</text>
+    </view>
+
+  <view class="content" style="width: 654rpx; height: 379rpx; display: block; box-sizing: content-box">
     <textarea
       class="input"
       placeholder="说点什么吧..."
@@ -14,7 +17,7 @@
       bindinput="handleInput"
       value="{{content}}"
       auto-focus
-    ></textarea>
+     style="position: relative; left: -52rpx; top: -679rpx; height: 458rpx; display: block; box-sizing: border-box; width: 758rpx"></textarea>
 
     <view class="images">
       <view 
@@ -39,7 +42,7 @@
         class="add-image"
         bindtap="chooseImage"
         wx:if="{{images.length < maxImageCount}}"
-      >
+       style="position: relative; left: -50rpx; top: -697rpx">
         <text class="icon">+</text>
         <text class="text">添加图片</text>
       </view>
