@@ -8,7 +8,8 @@ Page({
     refreshing: false,
     commentInput: '',
     currentMomentId: '',
-    showCommentInput: false
+    showCommentInput: false,
+    commentImages: []
   },
 
   onLoad: function() {
@@ -215,26 +216,20 @@ Page({
   },
 
   handleComment: function(e) {
-    var id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '/pages/comment/comment?momentId=' + id
-    })
-  },
-
-  showCommentInput: function(e) {
-    var momentId = e.currentTarget.dataset.id
+    const momentId = e.currentTarget.dataset.id
     this.setData({
-      showCommentInput: true,
       currentMomentId: momentId,
-      commentInput: ''
+      showCommentInput: true,
+      commentInput: '',
+      commentImages: []
     })
   },
 
-  hideCommentInput: function() {
+  cancelComment: function() {
     this.setData({
       showCommentInput: false,
-      currentMomentId: '',
-      commentInput: ''
+      commentInput: '',
+      commentImages: []
     })
   },
 
@@ -244,49 +239,93 @@ Page({
     })
   },
 
-  submitComment: function() {
+  chooseCommentImage: function() {
     var that = this
-    var content = this.data.commentInput.trim()
-    var momentId = this.data.currentMomentId
+    wx.chooseImage({
+      count: 9 - that.data.commentImages.length,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: function(res) {
+        that.setData({
+          commentImages: that.data.commentImages.concat(res.tempFilePaths)
+        })
+      }
+    })
+  },
 
-    if (!content) {
+  previewCommentImage: function(e) {
+    const current = e.currentTarget.dataset.current
+    wx.previewImage({
+      current: current,
+      urls: this.data.commentImages
+    })
+  },
+
+  deleteCommentImage: function(e) {
+    const index = e.currentTarget.dataset.index
+    const images = this.data.commentImages
+    images.splice(index, 1)
+    this.setData({
+      commentImages: images
+    })
+  },
+
+  submitComment: function() {
+    if (!this.data.commentInput.trim() && this.data.commentImages.length === 0) {
       wx.showToast({
-        title: '请输入评论内容',
+        title: '请输入评论内容或上传图片',
         icon: 'none'
       })
       return
     }
 
+    const that = this
     wx.showLoading({
-      title: '发送中...',
-      mask: true
+      title: '发送中...'
     })
 
-    wx.cloud.callFunction({
-      name: 'createComment',
-      data: {
-        momentId: momentId,
-        content: content
-      }
-    }).then(function(result) {
-      if (result.result.success) {
+    const uploadTasks = this.data.commentImages.map(path => {
+      return wx.cloud.uploadFile({
+        cloudPath: `comments/${Date.now()}-${Math.random().toString(36).substr(2)}.${path.match(/\.[^.]+?$/)[0]}`,
+        filePath: path
+      })
+    })
+
+    Promise.all(uploadTasks)
+      .then(res => {
+        const fileIDs = res.map(file => file.fileID)
+        
+        return wx.cloud.callFunction({
+          name: 'createComment',
+          data: {
+            momentId: this.data.currentMomentId,
+            content: this.data.commentInput.trim(),
+            images: fileIDs
+          }
+        })
+      })
+      .then(() => {
+        wx.hideLoading()
         wx.showToast({
           title: '评论成功',
           icon: 'success'
         })
-        that.hideCommentInput()
-        that.refreshMoments()
-      } else {
-        throw new Error(result.result.error || '评论失败')
-      }
-    }).catch(function(err) {
-      console.error('评论失败：', err)
-      wx.showToast({
-        title: err.message || '评论失败，请重试',
-        icon: 'none'
+        
+        this.refreshMoments()
+        
+        this.setData({
+          showCommentInput: false,
+          commentInput: '',
+          commentImages: []
+        })
       })
-    }).finally(function() {
-      wx.hideLoading()
-    })
+      .catch(err => {
+        console.error('评论失败：', err)
+        wx.hideLoading()
+        wx.showToast({
+          title: '评论失败',
+          icon: 'none'
+        })
+      })
   }
 }) 
