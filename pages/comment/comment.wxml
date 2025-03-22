@@ -1,0 +1,52 @@
+<view class="container">
+  <view class="header">
+    <text class="cancel" bindtap="navigateBack">取消</text>
+    <text class="title">发表评论</text>
+    <text class="submit" bindtap="submitComment">发送</text>
+  </view>
+
+  <view class="content">
+    <textarea
+      class="input"
+      placeholder="说点什么吧..."
+      placeholder-style="color: #999;"
+      maxlength="500"
+      bindinput="handleInput"
+      value="{{content}}"
+      auto-focus
+    ></textarea>
+
+    <view class="images">
+      <view 
+        class="image-item" 
+        wx:for="{{images}}" 
+        wx:key="*this"
+      >
+        <image 
+          src="{{item}}" 
+          mode="aspectFill" 
+          bindtap="previewImage"
+          data-url="{{item}}"
+        ></image>
+        <view 
+          class="delete-btn"
+          catchtap="removeImage"
+          data-index="{{index}}"
+        >×</view>
+      </view>
+
+      <view 
+        class="add-image"
+        bindtap="chooseImage"
+        wx:if="{{images.length < maxImageCount}}"
+      >
+        <text class="icon">+</text>
+        <text class="text">添加图片</text>
+      </view>
+    </view>
+
+    <view class="tips">
+      <text>最多可上传{{maxImageCount}}张图片</text>
+    </view>
+  </view>
+</view> 

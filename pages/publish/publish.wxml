@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="header">
+    <text class="cancel" bindtap="navigateBack">取消</text>
+    <text class="title">发布动态</text>
+    <text class="publish" bindtap="publish">发布</text>
+  </view>
+
+  <view class="content">
+    <textarea
+      class="input"
+      placeholder="分享新鲜事..."
+      placeholder-style="color: #999;"
+      maxlength="1000"
+      bindinput="handleInput"
+      value="{{content}}"
+    ></textarea>
+
+    <view class="images">
+      <view 
+        class="image-item" 
+        wx:for="{{images}}" 
+        wx:key="*this"
+      >
+        <image 
+          src="{{item}}" 
+          mode="aspectFill" 
+          bindtap="previewImage"
+          data-url="{{item}}"
+        ></image>
+        <view 
+          class="delete-btn"
+          catchtap="removeImage"
+          data-index="{{index}}"
+        >×</view>
+      </view>
+
+      <view 
+        class="add-image"
+        bindtap="chooseImage"
+        wx:if="{{images.length < maxImageCount}}"
+      >
+        <text class="icon">+</text>
+        <text class="text">添加图片</text>
+      </view>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,61 @@
+<view class="container">
+  <view class="header">
+    <text class="title">发现好店</text>
+  </view>
+
+  <scroll-view 
+    class="categories" 
+    scroll-x
+    enable-flex
+  >
+    <view 
+      class="category-item {{currentCategory === index ? 'active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="*this"
+      bindtap="switchCategory"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </scroll-view>
+
+  <scroll-view 
+    scroll-y 
+    class="places-list"
+    enable-pull-down-refresh
+  >
+    <view 
+      class="place-item"
+      wx:for="{{places}}"
+      wx:key="id"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+    >
+      <image 
+        class="cover" 
+        src="{{item.images[0]}}" 
+        mode="aspectFill"
+      ></image>
+      
+      <view class="info">
+        <view class="name-row">
+          <text class="name">{{item.name}}</text>
+          <text class="category">{{item.category}}</text>
+        </view>
+        
+        <view class="rating-row">
+          <view class="stars">
+            <text class="star" wx:for="{{5}}" wx:key="*this">
+              {{index < item.rating ? '★' : '☆'}}
+            </text>
+          </view>
+          <text class="rating">{{item.rating}}</text>
+          <text class="review-count">({{item.reviewCount}}条评价)</text>
+        </view>
+        
+        <text class="address">{{item.address}}</text>
+        <text class="description">{{item.description}}</text>
+      </view>
+    </view>
+  </scroll-view>
+</view> 

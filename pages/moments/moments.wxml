@@ -1,0 +1,93 @@
+<view class="container">
+  <view class="header">
+    <text class="title">动态</text>
+  </view>
+
+  <scroll-view 
+    scroll-y 
+    class="moments-list"
+    enable-pull-down-refresh
+  >
+    <block wx:if="{{moments.length > 0}}">
+      <view class="moment-item" wx:for="{{moments}}" wx:key="_id">
+        <view class="user-info">
+          <image class="avatar" src="{{item.userInfo.avatarUrl}}" mode="aspectFill"></image>
+          <text class="nickname">{{item.userInfo.nickName}}</text>
+        </view>
+        
+        <view class="content">{{item.content}}</view>
+        
+        <view class="images-list" wx:if="{{item.images.length > 0}}">
+          <block wx:for="{{item.images}}" wx:for-item="image" wx:key="*this">
+            <image 
+              class="image-item" 
+              src="{{image}}" 
+              mode="aspectFill" 
+              data-current="{{image}}" 
+              data-urls="{{item.images}}"
+              bindtap="previewImage"
+            ></image>
+          </block>
+        </view>
+        
+        <view class="footer">
+          <view class="time">{{item.createTimeFormatted}}</view>
+          <view class="actions">
+            <view class="action-item {{item.isLiked ? 'liked' : ''}}" data-id="{{item._id}}" bindtap="handleLike">
+              <text class="iconfont icon-like"></text>
+              <text class="count">{{item.likes}}</text>
+            </view>
+            <view class="action-item" data-id="{{item._id}}" bindtap="handleComment">
+              <text class="iconfont icon-comment"></text>
+              <text class="count">{{item.comments}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="comments" wx:if="{{item.comments.length > 0}}">
+          <view 
+            class="comment-item" 
+            wx:for="{{item.comments}}" 
+            wx:key="_id" 
+            wx:for-item="comment"
+          >
+            <text class="comment-user">{{comment.user.nickName}}：</text>
+            <text class="comment-content">{{comment.content}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view class="empty-state" wx:if="{{!loading && moments.length === 0}}">
+      <text>还没有动态，快去发布一条吧～</text>
+    </view>
+
+    <view class="loading-state" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+
+    <view class="no-more" wx:if="{{!hasMore && moments.length > 0}}">
+      <text>没有更多了</text>
+    </view>
+  </scroll-view>
+
+  <view class="publish-btn" bindtap="navigateToPublish">
+    <text class="iconfont icon-add"></text>
+  </view>
+
+  <!-- 评论输入框 -->
+  <view class="comment-input-container" wx:if="{{showCommentInput}}">
+    <view class="mask" bindtap="hideCommentInput"></view>
+    <view class="input-box">
+      <input 
+        class="comment-input"
+        placeholder="说点什么..."
+        value="{{commentInput}}"
+        bindinput="onCommentInput"
+        focus="{{showCommentInput}}"
+        adjust-position="{{true}}"
+      />
+      <button class="send-btn" bindtap="submitComment">发送</button>
+    </view>
+  </view>
+</view> 

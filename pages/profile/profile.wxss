@@ -1,0 +1,136 @@
+.container {
+  min-height: 100vh;
+  background: #f8f8f8;
+  padding-bottom: 40rpx;
+}
+
+.header {
+  background: #fff;
+  padding: 40rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 30rpx;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nickname {
+  font-size: 36rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.id {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.settings {
+  padding: 20rpx;
+}
+
+.settings .icon {
+  font-size: 40rpx;
+}
+
+.statistics {
+  background: #fff;
+  display: flex;
+  padding: 30rpx 0;
+  margin-bottom: 20rpx;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2rpx;
+  height: 40rpx;
+  background: #eee;
+}
+
+.number {
+  font-size: 36rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.menu-list {
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-content {
+  display: flex;
+  align-items: center;
+}
+
+.menu-content .icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.menu-content .label {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.arrow {
+  font-size: 30rpx;
+  color: #999;
+}
+
+.logout {
+  margin: 40rpx 30rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  color: #ff4d4f;
+} 

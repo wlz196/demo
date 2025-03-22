@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="header">
+    <image class="logo" src="/assets/images/logo.png" mode="aspectFit"></image>
+    <text class="title">欢迎使用社交小程序</text>
+  </view>
+  
+  <view class="content">
+    <button 
+      class="login-btn" 
+      type="primary"
+      open-type="getUserInfo"
+      bindgetuserinfo="handleLogin"
+      loading="{{loading}}"
+      disabled="{{loading}}"
+    >微信一键登录</button>
+    
+    <view class="tips">登录后即可体验全部功能</view>
+  </view>
+</view> 

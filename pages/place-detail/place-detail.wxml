@@ -1,0 +1,121 @@
+<view class="container" wx:if="{{place}}">
+  <swiper class="banner" indicator-dots circular>
+    <swiper-item wx:for="{{place.images}}" wx:key="*this">
+      <image 
+        src="{{item}}" 
+        mode="aspectFill" 
+        class="banner-image"
+        bindtap="previewImage"
+        data-current="{{item}}"
+      ></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="info-section">
+    <view class="header">
+      <view class="name-row">
+        <text class="name">{{place.name}}</text>
+        <text class="category">{{place.category}}</text>
+      </view>
+      
+      <view class="rating-row">
+        <view class="stars">
+          <text class="star" wx:for="{{5}}" wx:key="*this">
+            {{index < place.rating ? '★' : '☆'}}
+          </text>
+        </view>
+        <text class="rating">{{place.rating}}</text>
+        <text class="review-count">({{place.reviewCount}}条评价)</text>
+      </view>
+    </view>
+
+    <view class="detail-list">
+      <view class="detail-item">
+        <text class="label">地址</text>
+        <text class="value">{{place.address}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="label">电话</text>
+        <text class="value phone" bindtap="makePhoneCall">{{place.phone}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="label">营业时间</text>
+        <text class="value">{{place.businessHours}}</text>
+      </view>
+    </view>
+
+    <view class="description">
+      <text class="desc-text">{{place.description}}</text>
+    </view>
+  </view>
+
+  <view class="reviews-section">
+    <view class="section-header">
+      <text class="section-title">用户评价</text>
+      <text class="write-review" bindtap="writeReview">写评价</text>
+    </view>
+
+    <view class="reviews-list">
+      <view 
+        class="review-item" 
+        wx:for="{{reviews}}" 
+        wx:key="_id"
+      >
+        <view class="review-header">
+          <image class="avatar" src="{{item.user.avatarUrl}}"></image>
+          <view class="review-info">
+            <text class="nickname">{{item.user.nickName}}</text>
+            <view class="rating-row">
+              <view class="stars">
+                <text class="star" wx:for="{{5}}" wx:key="*this" wx:for-item="star">
+                  {{star < item.rating ? '★' : '☆'}}
+                </text>
+              </view>
+              <text class="time">{{item.createdAt}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="review-content">
+          <text>{{item.content}}</text>
+        </view>
+
+        <view class="review-images" wx:if="{{item.images.length > 0}}">
+          <image 
+            wx:for="{{item.images}}" 
+            wx:key="*this" 
+            wx:for-item="image"
+            src="{{image}}"
+            mode="aspectFill"
+            class="review-image"
+            bindtap="previewImage"
+            data-current="{{image}}"
+          ></image>
+        </view>
+
+        <view class="review-footer">
+          <view 
+            class="like-btn {{item.isLiked ? 'liked' : ''}}"
+            bindtap="toggleLike"
+            data-review-id="{{item._id}}"
+          >
+            <text class="like-icon">{{item.isLiked ? '♥' : '♡'}}</text>
+            <text class="like-count">{{item.likes}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="loading" wx:if="{{loading}}">
+        <text>加载中...</text>
+      </view>
+
+      <view class="no-more" wx:if="{{!hasMore && reviews.length > 0}}">
+        <text>没有更多评价了</text>
+      </view>
+
+      <view class="empty" wx:if="{{!loading && reviews.length === 0}}">
+        <text>暂无评价</text>
+      </view>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/moments/moments",
+    "pages/places/places",
+    "pages/profile/profile",
+    "pages/publish/publish",
+    "pages/comment/comment",
+    "pages/place-detail/place-detail",
+    "pages/write-review/write-review"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "社交小程序",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1296db",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/moments/moments",
+        "text": "动态",
+        "iconPath": "assets/icons/moments.png",
+        "selectedIconPath": "assets/icons/moments-active.png"
+      },
+      {
+        "pagePath": "pages/places/places",
+        "text": "发现",
+        "iconPath": "assets/icons/places.png",
+        "selectedIconPath": "assets/icons/places-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

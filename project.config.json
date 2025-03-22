@@ -1,0 +1,42 @@
+{
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "miniprogramRoot": "",
+  "compileType": "miniprogram",
+  "projectname": "社交小程序",
+  "setting": {
+    "useCompilerPlugins": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "uglifyFileName": true,
+    "uploadWithSourceMap": true,
+    "useMultiFrameRuntime": true,
+    "showES6CompileOption": false,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "condition": false
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "libVersion": "3.0.0",
+  "srcMiniprogramRoot": "miniprogram/",
+  "appid": "wxa5722d927e4fc4b5",
+  "cloudfunctionRoot": "cloudfunctions/"
+}
